@@ -5,7 +5,7 @@ from wtforms import StringField, SubmitField, URLField, SelectField
 from wtforms.validators import DataRequired, URL
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import Integer, String, Float
+from sqlalchemy import Integer, String, Float, text
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
@@ -25,11 +25,16 @@ class Cafe(db.Model):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     cafeName: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
     location: Mapped[str] = mapped_column(String(250), nullable=False)
-    openTime: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
+    openTime: Mapped[str] = mapped_column(String(250), nullable=False)
     closeTime: Mapped[str] = mapped_column(String(250), nullable=True)
-    coffeeRating: Mapped[str] = mapped_column(String(250), nullable=True)
-    wifiRating: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
-    powerRating: Mapped[str] = mapped_column(String(250), unique=True, nullable=False)
+    coffeeRating: Mapped[str] = mapped_column(String(250), nullable=False)
+    wifiRating: Mapped[str] = mapped_column(String(250), nullable=False)
+    powerRating: Mapped[str] = mapped_column(String(250), nullable=False)
+
+with app.app_context():
+    db.session.execute(text('DROP TABLE IF EXISTS cafe'))
+    db.session.commit()
+    db.create_all()
 
 with app.app_context():
     db.create_all()
