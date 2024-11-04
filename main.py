@@ -31,10 +31,10 @@ class Cafe(db.Model):
     wifiRating: Mapped[str] = mapped_column(String(250), nullable=False)
     powerRating: Mapped[str] = mapped_column(String(250), nullable=False)
 
-with app.app_context():
-    db.session.execute(text('DROP TABLE IF EXISTS cafe'))
-    db.session.commit()
-    db.create_all()
+# with app.app_context():
+#     db.session.execute(text('DROP TABLE IF EXISTS cafe'))
+#     db.session.commit()
+#     db.create_all()
 
 with app.app_context():
     db.create_all()
